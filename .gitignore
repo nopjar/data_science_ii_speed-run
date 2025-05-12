@@ -1,5 +1,6 @@
 output/
 cache/
-.idea
+.idea/
+__pycache__/
 
 *.iml

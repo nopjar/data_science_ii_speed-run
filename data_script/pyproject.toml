@@ -1,0 +1,14 @@
+[project]
+name = "data_script"
+version = "1.0.0"
+description = "Fetches data"
+dependencies = [
+    "beautifulsoup4",
+    "lxml",
+    "pandas",
+    "requests",
+]
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"

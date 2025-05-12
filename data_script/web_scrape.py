@@ -39,7 +39,6 @@ def get_multi_data(table, column_titles):
 
 def main():
     response = requests.get("https://www.speedrun.com/sm64?h=120_Star-n64&x=wkpoo02r-e8m7em86.9qj7z0oq")
-    print(response.status_code)
 
     bsoup = bs4.BeautifulSoup(response.text, "lxml")
     table = bsoup.select_one('table')

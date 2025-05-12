@@ -1,4 +1,3 @@
-import argparse
 import os.path
 
 from pandas import DataFrame
@@ -14,6 +13,8 @@ if __name__ == '__main__':
     else:
         df = web_scrape.main()
 
-    if os.path.isdir('output') is False:
-        os.mkdir('output')
-    DataFrame.to_csv(df, f'output/{ARGS.output_file}')
+    if ARGS.print:
+        print(df)
+
+    os.makedirs(os.path.dirname(ARGS.output_file), exist_ok=True)
+    DataFrame.to_csv(df, ARGS.output_file)

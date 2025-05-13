@@ -2,19 +2,22 @@ import os.path
 
 from pandas import DataFrame
 
-import api_scrape
+import api_scrape as api_scrape
 import web_scrape
 from settings import ARGS
 
 if __name__ == '__main__':
-    df = None
+    result: list
     if ARGS.mode == 'api':
-        df = api_scrape.main()
+        result = api_scrape.main()
     else:
-        df = web_scrape.main()
+        result = web_scrape.main()
 
     if ARGS.print:
-        print(df)
+        for r in result:
+            print(f'{r["name"]}:')
+            print(r["data"])
 
-    os.makedirs(os.path.dirname(ARGS.output_file), exist_ok=True)
-    DataFrame.to_csv(df, ARGS.output_file)
+    os.makedirs(os.path.dirname(ARGS.output_dir), exist_ok=True)
+    for r in result:
+        DataFrame.to_csv(r["data"], f'{ARGS.output_dir}/{r["name"]}.csv')

@@ -1,6 +1,6 @@
 import bs4
-import requests
 import pandas as pd
+import requests
 
 
 def get_column_titles(table):

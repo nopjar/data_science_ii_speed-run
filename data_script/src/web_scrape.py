@@ -44,4 +44,4 @@ def main():
     table = bsoup.select_one('table')
 
     col_names = get_column_titles(table)
-    return get_multi_data(table, col_names)
+    return [{'name': 'leaderboard', 'data': get_multi_data(table, col_names)}]

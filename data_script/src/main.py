@@ -11,6 +11,7 @@ if __name__ == '__main__':
     if ARGS.mode == 'api':
         result = api_scrape.main()
     else:
+        print("[WARNING] Web does not provide the full data set.")
         result = web_scrape.main()
 
     if ARGS.print:

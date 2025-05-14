@@ -2,23 +2,26 @@ import os.path
 
 from pandas import DataFrame
 
-import api_scrape as api_scrape
-import web_scrape
+import genre_scrape
+import leaderboard_scrape
 from settings import ARGS
 
 if __name__ == '__main__':
     result: list
-    if ARGS.mode == 'api':
-        result = api_scrape.main()
+    if ARGS.command == 'leaderboard':
+        result = leaderboard_scrape.main()
+    elif ARGS.command == 'genres':
+        result = genre_scrape.main()
     else:
-        print("[WARNING] Web does not provide the full data set.")
-        result = web_scrape.main()
+        print(f'Unknown command {ARGS.command}')
+        exit(1)
 
     if ARGS.print:
         for r in result:
             print(f'{r["name"]}:')
             print(r["data"])
 
-    os.makedirs(os.path.dirname(ARGS.output_dir), exist_ok=True)
     for r in result:
-        DataFrame.to_csv(r["data"], f'{ARGS.output_dir}/{r["name"]}.csv')
+        path = f'{ARGS.output_dir}/{r["name"]}.csv'
+        os.makedirs(os.path.dirname(ARGS.output_dir), exist_ok=True)
+        DataFrame.to_csv(r["data"], path)

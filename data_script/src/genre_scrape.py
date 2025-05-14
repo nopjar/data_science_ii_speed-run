@@ -141,7 +141,6 @@ def main():
     json_docs = fetch_genre()
     column_titles = get_column_titles()
     ids = extract_game_and_category_id(json_docs)
-    print(f"knows the problem: {'m1mx54x6' in ids}")
     top_runs = fetch_top_runs(ids)
     first_runs = fetch_first_runs(ids)
 

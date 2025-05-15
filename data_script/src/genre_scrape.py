@@ -7,6 +7,7 @@ import requests
 import utils
 from exceptions import MalformedData
 from settings import ARGS
+import request_limiter
 
 
 def get_column_titles():
@@ -21,7 +22,7 @@ def fetch_genre():
             return json.load(f)
     else:
         print(f'limit: {ARGS.limit}')
-        response = requests.get(
+        response = request_limiter.get(
             f'https://www.speedrun.com/api/v1/games?genres={ARGS.genre_key}&max={min(200, ARGS.limit)}')
         json_doc = json.loads(response.text)
         print(f'Writing to cachefile {path}')
@@ -41,7 +42,7 @@ def fetch_top_runs(ids):
                 dic[game_id] = json.load(f)
         else:
             print('Fetching top-run data from API.')
-            response = requests.get(
+            response = request_limiter.get(
                 f'https://www.speedrun.com/api/v1/leaderboards/{game_id}/category/{category}?limit=1')
             json_doc = json.loads(response.text)
             print(f'Writing to cachefile {path}')
@@ -71,7 +72,7 @@ def fetch_first_runs(ids):
                 dic[game_id] = json.load(f)
         else:
             print('Fetching first-run data from API.')
-            response = requests.get(
+            response = request_limiter.get(
                 f'https://www.speedrun.com/api/v1/runs?game={game_id}&category={category}&orderby=date&direction=asc&max=200')
             json_doc = json.loads(response.text)
             json_doc['data'] = [filter_first_run_date(json_doc)]

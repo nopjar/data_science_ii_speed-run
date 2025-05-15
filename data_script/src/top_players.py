@@ -2,10 +2,11 @@ import json
 import os.path
 
 import pandas as pd
-import requests
 
+from exceptions import MalformedData
 from settings import ARGS
 from utils import get_cache_file_path
+import request_limiter
 
 
 def get_column_titles():
@@ -13,13 +14,20 @@ def get_column_titles():
     return col_names
 
 
+def get_platform(data):
+    if 'name' in data:
+        return data['name']
+    elif ARGS.strict:
+        raise MalformedData("Platform not found in run.")
+    return None
+
 def get_data(user_id, user, column_titles):
     data = {0: [], 1: [], 2: [], 3: []}
 
     for run in user['data']:
         data[0].append(run['times']['primary_t'])
         data[1].append(run['date'])
-        data[2].append(run['platform']['data']['name'])
+        data[2].append(get_platform(run['platform']['data']))
         data[3].append(run['status']['status'] == 'verified')
 
     df = pd.DataFrame.from_dict(data)
@@ -46,7 +54,7 @@ def fetch_data(user_id) -> dict:
             return json.load(f)
     else:
         print(f'Fetching player data for {user_id} from API.')
-        response = requests.get(
+        response = request_limiter.get(
             f'https://www.speedrun.com/api/v1/runs?game={ARGS.game_key}&user={user_id}&category={ARGS.game_category}&embed=players,platform&max=200')
         json_doc = json.loads(response.text)
         print(f'Writing to cachefile {path}')

@@ -7,6 +7,7 @@ import requests
 from exceptions import MalformedData, ReferenceNotFound
 from settings import ARGS
 from utils import get_cache_file_path
+import request_limiter
 
 CACHE_FILE = "leaderboard"
 
@@ -39,7 +40,9 @@ def get_platform_name(platform_id, platforms):
     for platform in platforms['data']:
         if platform['id'] == platform_id:
             return platform['name']
-    raise ReferenceNotFound(f"Platform {platform_id} not found.")
+    if ARGS.strict:
+        raise ReferenceNotFound(f"Platform {platform_id} not found.")
+    return None
 
 
 def get_multi_data(runs, players, platforms, column_titles):
@@ -74,7 +77,7 @@ def fetch_data() -> dict:
             return json.load(f)
     else:
         print("Fetching leaderboard-data from API.")
-        response = requests.get(
+        response = request_limiter.get(
             f'https://www.speedrun.com/api/v1/leaderboards/{ARGS.game_key}/category/{ARGS.game_category}?embed=players,platforms')
         json_doc = json.loads(response.text)
         print(f'Writing to cache {path}.')

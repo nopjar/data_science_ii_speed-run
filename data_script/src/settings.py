@@ -17,9 +17,13 @@ def get_args():
     leaderboard_parser.add_argument("--game-key", default="o1y9wo6q")
     leaderboard_parser.add_argument("--game-category", default="wkpoo02r")
 
-
     genres_parser = subparsers.add_parser("genres")
     genres_parser.add_argument("--genre-key", default="jp23ox26")
+
+    game_info_parser = subparsers.add_parser("game_info")
+    game_info_parser.add_argument("--game-key", default="o1y9wo6q")
+
+    subparsers.add_parser("clear_cache")
     return parser.parse_args()
 
 

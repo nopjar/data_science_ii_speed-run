@@ -3,10 +3,10 @@ import os.path
 
 import pandas as pd
 
+import request_limiter
 from exceptions import MalformedData
 from settings import ARGS
 from utils import get_cache_file_path
-import request_limiter
 
 
 def get_column_titles():

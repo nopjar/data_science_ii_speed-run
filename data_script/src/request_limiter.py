@@ -1,5 +1,6 @@
-import requests
 from time import time, sleep
+
+import requests
 
 REQUEST_LIMIT = 90
 TIME_THRESHOLD = 30
@@ -21,4 +22,7 @@ def get(url):
             sleep(TIMEOUT)
             clear_requests()
     REQUESTS.append(time())
-    return requests.get(url)
+    response = requests.get(url)
+    if response.status_code != 200:
+        print(f"WARNING: got {response.status_code} for {url}")
+    return response

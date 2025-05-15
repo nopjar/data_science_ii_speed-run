@@ -2,14 +2,11 @@ import json
 import os.path
 
 import pandas as pd
-import requests
 
+import request_limiter
 from exceptions import MalformedData, ReferenceNotFound
 from settings import ARGS
-from utils import get_cache_file_path
-import request_limiter
-
-CACHE_FILE = "leaderboard"
+from utils import get_cache_file_path, is_cached
 
 
 def get_column_titles():
@@ -65,13 +62,10 @@ def get_multi_data(runs, players, platforms, column_titles):
     return df
 
 
-def is_cached():
-    return os.path.isfile(get_cache_file_path(CACHE_FILE))
-
 
 def fetch_data() -> dict:
-    path = get_cache_file_path(CACHE_FILE)
-    if not ARGS.refresh_cache and is_cached():
+    path = get_cache_file_path(f'leaderboard-{ARGS.game_key}-{ARGS.game_category}')
+    if is_cached(path):
         print(f'Using cached data from {path}')
         with open(path, 'r') as f:
             return json.load(f)

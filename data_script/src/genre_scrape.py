@@ -2,12 +2,11 @@ import json
 import os.path
 
 import pandas as pd
-import requests
 
+import request_limiter
 import utils
 from exceptions import MalformedData
 from settings import ARGS
-import request_limiter
 
 
 def get_column_titles():

@@ -23,7 +23,7 @@ def get_args():
     game_info_parser = subparsers.add_parser("game_info")
     game_info_parser.add_argument("--game-key", default="o1y9wo6q")
 
-    subparsers.add_parser("clear_cache")
+    subparsers.add_parser("clear")
     return parser.parse_args()
 
 

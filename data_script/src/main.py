@@ -2,7 +2,7 @@ import os.path
 
 from pandas import DataFrame
 
-import clear_cache
+import clear
 import game_info
 import genre_scrape
 import leaderboard_scrape
@@ -18,8 +18,8 @@ def main():
     elif ARGS.command == 'game_info':
         game_info.main()
         return
-    elif ARGS.command == 'clear_cache':
-        clear_cache.main()
+    elif ARGS.command == 'clear':
+        clear.main()
         return
     else:
         print(f'Unknown command {ARGS.command}')

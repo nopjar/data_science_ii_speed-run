@@ -22,7 +22,7 @@ def fetch_genre():
     else:
         print(f'limit: {ARGS.limit}')
         response = request_limiter.get(
-            f'https://www.speedrun.com/api/v1/games?genres={ARGS.genre_key}&max={min(200, ARGS.limit)}')
+            f'https://www.speedrun.com/api/v1/games?genre={ARGS.genre_key}&max={min(200, ARGS.limit)}')
         json_doc = json.loads(response.text)
         print(f'Writing to cachefile {path}')
         os.makedirs(os.path.dirname(path), exist_ok=True)
